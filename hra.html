@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duša za Milión</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: #fff;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #game-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+            background: #111;
+            border: 4px solid #ff0055;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #0a0518, #2a0845);
+        }
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #00ffcc;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 5;
+        }
+        #dialogue-box {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #ff0055;
+            padding: 15px;
+            color: #ff99cc;
+            box-sizing: border-box;
+            z-index: 10;
+            text-align: center;
+        }
+        .touch-btn {
+            margin-top: 10px;
+            background-color: #ff0055;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #d-pad {
+            display: none;
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 130px;
+            height: 130px;
+            z-index: 10;
+        }
+        .d-btn {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        #btn-up { top: 0; left: 45px; width: 40px; height: 40px; }
+        #btn-down { bottom: 0; left: 45px; width: 40px; height: 40px; }
+        #btn-left { top: 45px; left: 0; width: 40px; height: 40px; }
+        #btn-right { top: 45px; right: 0; width: 40px; height: 40px; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="ui">Peniaze: <span id="money">0 €</span> | Duša: <span id="soul" style="color:#00ffcc;">Nedotknutá</span></div>
+        <canvas id="gameCanvas" width="800" height="450"></canvas>
+        
+        <div id="dialogue-box">
+            <div id="dialogue-text">Načítavam...</div>
+            <button class="touch-btn" onclick="nextDialogue()">Pokračovať ➡</button>
+        </div>
+
+        <div id="d-pad">
+            <div class="d-btn" id="btn-up" ontouchstart="moveDir('up', true)" ontouchend="moveDir('up', false)" onmousedown="moveDir('up', true)" onmouseup="moveDir('up', false)">▲</div>
+            <div class="d-btn" id="btn-down" ontouchstart="moveDir('down', true)" ontouchend="moveDir('down', false)" onmousedown="moveDir('down', true)" onmouseup="moveDir('down', false)">▼</div>
+            <div class="d-btn" id="btn-left" ontouchstart="moveDir('left', true)" ontouchend="moveDir('left', false)" onmousedown="moveDir('left', true)" onmouseup="moveDir('left', false)">◀</div>
+            <div class="d-btn" id="btn-right" ontouchstart="moveDir('right', true)" ontouchend="moveDir('right', false)" onmousedown="moveDir('right', true)" onmouseup="moveDir('right', false)">▶</div>
+        </div>
+    </div>
+
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let gameState = "intro_animation";
+    let player = { x: 100, y: 300, width: 32, height: 48, speed: 4, money: 0, hasSoul: true, color: "#38bdf8" };
+    let demons = [
+        { x: 600, y: 280, width: 40, height: 60, color: "#ff0033", name: "Azazel" },
+        { x: 670, y: 280, width: 40, height: 60, color: "#cc0029", name: "Moloch" }
+    ];
+
+    let moveState = { up: false, down: false, left: false, right: false };
+    let animTimer = 0;
+    let introStep = 0;
+    
+    let dialogueQueue = [
+        "Azazel: 'Tu máš svoj milión dolárov v hotovosti. Presne ako sme sa dohodli.'",
+        "Bruno: 'Paráda! Konečne budem bohatý a... počkať, čo to robíte s mojim hrudníkom?!'",
+        "Moloch: 'Hahahaha! Tvoja duša je teraz naším majetkom! Zmluva je zmluva.'",
+        "*(Cítiš, ako ťa opúšťa duša, ale v rukách držíš balík peňazí. Utekaj!)*"
+    ];
+
+    document.getElementById("dialogue-text").innerText = dialogueQueue[0];
+
+    function nextDialogue() {
+        introStep++;
+        if (introStep < dialogueQueue.length) {
+            document.getElementById("dialogue-text").innerText = dialogueQueue[introStep];
+        } else {
+            gameState = "exploration";
+            player.money = 1000000;
+            player.hasSoul = false;
+            document.getElementById("money").innerText = "1 000 000 €";
+            document.getElementById("soul").innerText = "UKRADNUTÁ 💀";
+            document.getElementById("soul").style.color = "#ff0033";
+            document.getElementById("dialogue-box").style.display = "none";
+            document.getElementById("d-pad").style.display = "block";
+        }
+    }
+
+    function moveDir(dir, isDown) { moveState[dir] = isDown; }
+
+    function update() {
+        if (gameState === "exploration") {
+            if (moveState.left) player.x -= player.speed;
+            if (moveState.right) player.x += player.speed;
+            if (moveState.up) player.y -= player.speed;
+            if (moveState.down) player.y += player.speed;
+
+            if (player.x < 0) player.x = 0;
+            if (player.x > canvas.width - player.width) player.x = canvas.width - player.width;
+            if (player.y < 200) player.y = 200;
+            if (player.y > canvas.height - player.height - 10) player.y = canvas.height - player.height - 10;
+        }
+        animTimer += 0.05;
+    }
+
+    function drawPixelRect(x, y, w, h, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(Math.floor(x), Math.floor(y), w, h);
+    }
+
+    function drawCharacter(x, y, color, isDemon, name) {
+        drawPixelRect(x + 8, y, 16, 16, isDemon ? "#ff3366" : "#ffccaa");
+        drawPixelRect(x + 10, y + 4, 3, 3, "#000");
+        drawPixelRect(x + 19, y + 4, 3, 3, "#000");
+        if (isDemon) {
+            drawPixelRect(x + 4, y - 6, 6, 8, "#990011");
+            drawPixelRect(x + 22, y - 6, 6, 8, "#990011");
+        }
+        drawPixelRect(x + 4, y + 16, 24, 20, color);
+        let legOffset = Math.sin(animTimer * 5) * 4;
+        drawPixelRect(x + 6, y + 36, 8, 12 + legOffset, "#111");
+        drawPixelRect(x + 18, y + 36, 8, 12 - legOffset, "#111");
+
+        ctx.fillStyle = "#fff";
+        ctx.font = "10px monospace";
+        ctx.fillText(name, x - 5, y - 10);
+    }
+
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = "#1f1035";
+        for (let i = 0; i < canvas.width; i += 40) {
+            ctx.beginPath(); ctx.moveTo(i, 200); ctx.lineTo(i - 200, canvas.height); ctx.stroke();
+        }
+        for (let j = 200; j < canvas.height; j += 20) {
+            ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(canvas.width, j); ctx.stroke();
+        }
+
+        demons.forEach(d => drawCharacter(d.x, d.y, d.color, true, d.name));
+        drawCharacter(player.x, player.y, player.color, false, "Bruno");
+
+        if (gameState === "intro_animation" && introStep >= 2) {
+            ctx.fillStyle = "rgba(0, 255, 204, " + (Math.sin(animTimer * 10) * 0.3 + 0.4) + ")";
+            ctx.beginPath();
+            ctx.arc(player.x + 16, player.y + 20, 30, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function gameLoop() {
+        update();
+        render();
+        requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+</script>
+
+</body>
+</html>
