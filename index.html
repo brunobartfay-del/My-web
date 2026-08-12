@@ -1994,3 +1994,145 @@
   </main>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Výber Ligy a Tímov</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-16 font-sans">
+
+  <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- HLAVIČKA A VÝBER LIGY -->
+    <header class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-center space-y-4">
+      <h1 class="text-2xl md:text-3xl font-black text-amber-400 uppercase tracking-wide">🏆 Výber Anglickej / Svetovej Sekcie</h1>
+      <p class="text-xs md:text-sm text-slate-400">Zvoľ si ligu z ponuky nižšie a okamžite sa ti zobrazí kompletný zoznam pridružených klubov.</p>
+      
+      <!-- Tlačidlá pre výber ligy -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
+        <button onclick="switchLeague('pl')" id="btn-pl" class="bg-amber-500 text-slate-950 font-black py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20">Premier League</button>
+        <button onclick="switchLeague('championship')" id="btn-championship" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition">EFL Championship</button>
+        <button onclick="switchLeague('leagueone')" id="btn-leagueone" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition">EFL League One</button>
+        <button onclick="switchLeague('leaguetwo')" id="btn-leaguetwo" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition">EFL League Two</button>
+      </div>
+    </header>
+
+    <!-- VYHĽADÁVANIE V KLUBOCH -->
+    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <h2 id="currentLeagueTitle" class="text-lg font-bold text-amber-400 flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved"></i> Premier League
+      </h2>
+      <input type="text" id="searchInput" onkeyup="filterTeams()" placeholder="Hľadať klub v tejto lige..." class="w-full sm:w-72 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+    </div>
+
+    <!-- ZOZNAM KLUBOV -->
+    <section id="teamsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <!-- Generované dynamicky cez JavaScript -->
+    </section>
+
+  </main>
+
+  <script>
+    // Dáta pre jednotlivé ligy
+    const leaguesData = {
+      pl: {
+        title: "Premier League",
+        teams: [
+          "Man City", "Man Utd", "Chelsea", "Tottenham Hotspur", "Brighton", "Bournemouth", 
+          "Coventry City", "Newcastle", "Liverpool", "West Ham", "Leicester City", "Luton Town", 
+          "Birmingham", "Wrexham", "Watford", "Salford City", "Oldham Athletic", "Barnet", "MK Dons", "Notts County"
+        ]
+      },
+      championship: {
+        title: "EFL Championship",
+        teams: [
+          "Arsenal", "Aston Villa", "Brentford", "Crystal Palace", "Everton", "Fulham", 
+          "Hull City", "Ipswich Town", "Leeds United", "Nottingham Forest", "Sunderland", "Burnley", 
+          "Cardiff City", "Southampton", "Wolves", "Wimbledon", "Plymouth", "Leyton Orient", 
+          "Huddersfield", "Cambridge", "Barnsley", "Blackpool", "Mansfielfd", "Burton"
+        ]
+      },
+      leagueone: {
+        title: "EFL League One",
+        teams: [
+          "Nashville", "Inter Miami", "New England", "Chicago Fire", "NY City FC", "Cincinati", 
+          "Charlotte", "NY Red Bulls", "D.C. United", "Orlando City", "Colombus", "Toronto", 
+          "Philadelphia", "Montreal", "Atalanta", "Vancouver", "LAFC", "SAN Jose", 
+          "Houston Dynamo", "Real Salt Lake", "Dallas", "St. Louis", "Portland", "Seattle"
+        ]
+      },
+      leaguetwo: {
+        title: "EFL League Two",
+        teams: [
+          "Minnesota", "Colorado", "LA Galaxy", "San Diego", "Austin", "Sporting KC", 
+          "Celtic", "St. Mirren", "Motherwell", "Hearts", "Dundee FC", "St. Johnstone", 
+          "Hibernian", "Abeerden", "Rangers", "Falkrik", "Dundee United", "Kilmanrock", 
+          "Blackburn", "QPR", "Preston", "Norwich", "Millwall", "Portsmouth", "Bolton"
+        ]
+      }
+    };
+
+    let activeLeagueKey = 'pl';
+
+    function switchLeague(key) {
+      activeLeagueKey = key;
+      
+      // Zmena aktívnych štýlov tlačidiel
+      const keys = ['pl', 'championship', 'leagueone', 'leaguetwo'];
+      keys.forEach(k => {
+        const btn = document.getElementById(`btn-${k}`);
+        if (k === key) {
+          btn.className = "bg-amber-500 text-slate-950 font-black py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20";
+        } else {
+          btn.className = "bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition";
+        }
+      });
+
+      document.getElementById('searchInput').value = "";
+      renderTeams(leaguesData[key].title, leaguesData[key].teams);
+    }
+
+    function renderTeams(leagueTitle, teamsArray) {
+      document.getElementById('currentLeagueTitle.innerHTML').innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${leagueTitle} (${teamsArray.length} klubov)`;
+      const grid = document.getElementById('teamsGrid');
+      grid.innerHTML = "";
+
+      teamsArray.forEach((team, index) => {
+        const card = `
+          <div class="team-card bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between hover:bg-slate-800/50 transition shadow-md">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-amber-400">
+                ${index + 1}
+              </div>
+              <h3 class="font-bold text-white team-name">${team}</h3>
+            </div>
+            <span class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-full">Klub</span>
+          </div>
+        `;
+        grid.innerHTML += card;
+      });
+    }
+
+    function filterTeams() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('team-card');
+
+      for (let i = 0; i < cards.length; i++) {
+        const name = cards[i].querySelector('.team-name').innerText.toLowerCase();
+        if (name.includes(input)) {
+          cards[i].style.display = "flex";
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+    }
+
+    // Inicialný štart na Premier League
+    renderTeams(leaguesData.pl.title, leaguesData.pl.teams);
+  </script>
+</body>
+</html>
