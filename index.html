@@ -1688,3 +1688,219 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGP 2 & SGP 3 - Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-16 font-sans">
+
+  <main class="max-w-4xl mx-auto px-4 py-8 space-y-12">
+
+    <!-- 1. JAZDEC DŇA (FAN FAVOURITE) -->
+    <section class="bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/30 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4 text-center md:text-left">
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-3xl shrink-0">
+          ⭐
+        </div>
+        <div>
+          <span class="text-xs uppercase font-extrabold text-amber-400 tracking-wider">Fanúšikovská voľba</span>
+          <h2 class="text-xl font-black text-white" id="riderOfTheDayName">Vyber Jazdca Dňa</h2>
+          <p class="text-xs text-slate-400">Klikni na tlačidlo a vyžrebuj/zvol si jazdca dňa pre dnešné kolo.</p>
+        </div>
+      </div>
+      <button onclick="pickRiderOfTheDay()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3 rounded-xl transition shadow-lg shadow-amber-500/20 flex items-center gap-2 shrink-0">
+        <i class="fa-solid fa-dice"></i> Zvoliť Jazdca Dňa
+      </button>
+    </section>
+
+    <!-- 2. ŠTATISTIKY A REKORDY TRATÍ -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+      <h2 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-chart-line"></i> Rekordy & Štatistiky tratí
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <span class="text-xs text-slate-400 uppercase font-semibold block mb-1">Najrýchlejšie kolo</span>
+          <span class="text-lg font-black text-white">57.42 s</span>
+          <span class="text-[10px] text-amber-400 block mt-1">Žarnovica Track</span>
+        </div>
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <span class="text-xs text-slate-400 uppercase font-semibold block mb-1">Najviac bodov za večer</span>
+          <span class="text-lg font-black text-white">21 pts</span>
+          <span class="text-[10px] text-amber-400 block mt-1">Maximalizmus limit</span>
+        </div>
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <span class="text-xs text-slate-400 uppercase font-semibold block mb-1">Celkovo jazdcov</span>
+          <span class="text-lg font-black text-white">30</span>
+          <span class="text-[10px] text-amber-400 block mt-1">SGP 2 & SGP 3 Spolu</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- VYHĽADÁVANIE -->
+    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <h2 class="text-lg font-bold text-amber-400"><i class="fa-solid fa-users"></i> Zoznam Jazdcov (Klikni pre detail)</h2>
+      <input type="text" id="searchInput" onkeyup="filterRiders()" placeholder="Hľadať jazdca alebo štát..." class="w-full sm:w-72 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+    </div>
+
+    <!-- 🏆 SGP 2 ZOZNAM -->
+    <section>
+      <div class="border-b border-slate-800 pb-3 mb-6 flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-amber-400 flex items-center gap-2">
+          <i class="fa-solid fa-trophy"></i> SGP 2
+        </h2>
+        <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-full font-bold">15 Jazdcov</span>
+      </div>
+      <div id="sgp2List" class="space-y-3"></div>
+    </section>
+
+    <!-- 🏆 SGP 3 ZOZNAM -->
+    <section>
+      <div class="border-b border-slate-800 pb-3 mb-6 flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-blue-400 flex items-center gap-2">
+          <i class="fa-solid fa-trophy"></i> SGP 3
+        </h2>
+        <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full font-bold">15 Jazdcov</span>
+      </div>
+      <div id="sgp3List" class="space-y-3"></div>
+    </section>
+
+  </main>
+
+  <!-- MODAL / PROFILOVÉ OKNO PRE DETAILY JAZDCA -->
+  <div id="riderModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative space-y-4">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="flex items-center gap-4">
+        <div id="modalAvatar" class="w-16 h-16 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden text-2xl text-slate-500 shrink-0">
+          <i class="fa-solid fa-helmet-safety"></i>
+        </div>
+        <div>
+          <span id="modalFlag" class="text-2xl"></span>
+          <h3 id="modalName" class="text-xl font-bold text-white">Meno Jazdca</h3>
+          <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded-full font-semibold">Profil Jazdca</span>
+        </div>
+      </div>
+      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+        <span class="text-xs text-slate-400 uppercase font-semibold block">Reálna história & Úspechy:</span>
+        <p id="modalHistory" class="text-sm text-slate-300 leading-relaxed"></p>
+      </div>
+      <div class="flex justify-end">
+        <button onclick="closeModal()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2 rounded-xl text-sm transition">Zatvoriť</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sgp2Riders = [
+      { name: "Anders Thomsen", flag: "🇩🇰", history: "Víťaz SGP Gorzów, 2x Majster Dánska, stály účastník SGP", img: "https://images.fimspeedway.com/riders/thomsen.jpg" },
+      { name: "Adam Bubba Bednář", flag: "🇨🇿", history: "Mladý český talent, účastník SGP2 a Ekstraliga U24", img: "" },
+      { name: "Janek Konzack", flag: "🇩🇪", history: "Nemecký junior, účastník európskych pohárov U19", img: "" },
+      { name: "Tai Woffinden", flag: "🇬🇧", history: "3x Majster Sveta SGP (2013, 2015, 2018), legenda Speedway", img: "https://images.fimspeedway.com/riders/woffinden.jpg" },
+      { name: "Leon Madsen", flag: "🇩🇰", history: "Vicemajster Sveta SGP, 2x Majster Európy (SEC)", img: "" },
+      { name: "Jack Holder", flag: "🇦🇺", history: "Majster Sveta družstiev (SoN), víťaz pretekov SGP", img: "" },
+      { name: "Max Fricke", flag: "🇦🇺", history: "Majster Sveta U21, víťaz SGP 2020/2022, SoN Šampión", img: "" },
+      { name: "Dominik Kubera", flag: "🇵🇱", history: "Viacnásobný vicemajster Sveta U21, stály jazdec SGP", img: "" },
+      { name: "Jason Doyle", flag: "🇦🇺", history: "Majster Sveta SGP 2017, vicemajster sveta družstiev", img: "" },
+      { name: "Michael Jepsen Jensen", flag: "🇩🇰", history: "Majster Sveta U21, víťaz SGP Nordic 2012", img: "" },
+      { name: "Diego Maghaliesa La Costa", flag: "🇨🇻", history: "Exotický zástupca Kapverd na medzinárodnej scéne", img: "" },
+      { name: "Szymon Woźniak", flag: "🇵🇱", history: "Individuálny Majster Poľska 2017, stály účastník SGP", img: "" },
+      { name: "Kacper Woryna", flag: "🇵🇱", history: "Bronzový z Majstrovstiev Európy (SEC), hviezda Ekstraligy", img: "" },
+      { name: "Štichauer Hynek", flag: "🇨🇿", history: "Skúsený český reprezentant, dlhoročný účastník MS/ME", img: "" },
+      { name: "Filip Kasan", flag: "🇸🇰", history: "Slovenský junior, talent Žarnovickej plochého dráhy", img: "" }
+    ];
+
+    const sgp3Riders = [
+      { name: "Oliver Berntzon", flag: "🇸🇪", history: "Švédsky šampión, účastník SGP a SEC", img: "" },
+      { name: "Adrian Gała", flag: "🇵🇱", history: "Skúsený poľský ligový jazdec, odchovanec Gniezna", img: "" },
+      { name: "Anze Grmek", flag: "🇸🇮", history: "Slovinský reprezentant, pravidelný účastník kvalifikácií SGP", img: "" },
+      { name: "David Bellego", flag: "🇫🇷", history: "Najlepší francúzsky jazdec, účastník SEC a SEC Challenge", img: "" },
+      { name: "Mateusz Szczepaniak", flag: "🇵🇱", history: "Víťaz Final Sweep ligových súťaží v Poľsku", img: "" },
+      { name: "Jakub Valkovič", flag: "🇸🇰", history: "Slovenský reprezentant zo Žarnovice, účastník MACEC Cupu", img: "" },
+      { name: "Francis Gusts", flag: "🇱🇻", history: "Majster Európy U19, jeden z najväčších lotyšských talentov", img: "" },
+      { name: "Luke Becker", flag: "🇺🇸", history: "Jednotka USA Speedway, zverenec Grega Hancocka", img: "" },
+      { name: "Marko Levyshin", flag: "🇺🇦", history: "Ukrajinský junior, bronzový z ME U19", img: "" },
+      { name: "Makar Levyshin", flag: "🇺🇦", history: "Mladý ukrajinský talent na plochodrážnej scéne", img: "" },
+      { name: "Andzejs Lebedevs", flag: "🇱🇻", history: "Majster Európy (SEC), stály účastník Speedway Grand Prix", img: "" },
+      { name: "Matej Žagar", flag: "🇸🇮", history: "Legenda Slovinska, 5x víťaz pretekov SGP, vicemajster SEC", img: "" },
+      { name: "Matic Ivačič", flag: "🇸🇮", history: "Viacnásobný šampión Slovinska a Chorvátska", img: "" },
+      { name: "Frederik Jakobsen", flag: "🇩🇰", history: "Bývalý medailista z MS U21, opora dánskych klubov", img: "" },
+      { name: "Václav Milík", flag: "🇨🇿", history: "Strieborný z SEC, 3. miesto na SGP v Prahe, 1. česká hviezda", img: "" }
+    ];
+
+    function renderList(riders, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      riders.forEach(r => {
+        const card = `
+          <div onclick="openModal('${r.name.replace(/'/g, "\\'")}', '${r.flag}', '${r.history.replace(/'/g, "\\'")}', '${r.img}')" class="rider-card bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between hover:bg-slate-800/50 cursor-pointer transition">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden text-sm text-slate-500 shrink-0">
+                ${r.img ? `<img src="${r.img}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-helmet-safety"></i>`}
+              </div>
+              <div>
+                <h3 class="font-bold text-white rider-name">${r.name}</h3>
+                <p class="text-xs text-slate-400 rider-history line-clamp-1">${r.history}</p>
+              </div>
+            </div>
+            <span class="text-xl shrink-0 ml-4 rider-flag">${r.flag}</span>
+          </div>
+        `;
+        container.innerHTML += card;
+      });
+    }
+
+    renderList(sgp2Riders, "sgp2List");
+    renderList(sgp3Riders, "sgp3List");
+
+    // Modal Správa
+    function openModal(name, flag, history, img) {
+      document.getElementById('modalName').innerText = name;
+      document.getElementById('modalFlag').innerText = flag;
+      document.getElementById('modalHistory').innerText = history;
+      const avatar = document.getElementById('modalAvatar');
+      if (img) {
+        avatar.innerHTML = `<img src="${img}" class="w-full h-full object-cover">`;
+      } else {
+        avatar.innerHTML = `<i class="fa-solid fa-helmet-safety"></i>`;
+      }
+      document.getElementById('riderModal').classList.remove('hidden');
+      document.getElementById('riderModal').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('riderModal').classList.remove('flex');
+      document.getElementById('riderModal').classList.add('hidden');
+    }
+
+    // Jazdec Dňa Žrebovač
+    function pickRiderOfTheDay() {
+      const allRiders = [...sgp2Riders, ...sgp3Riders];
+      const randomRider = allRiders[Math.floor(Math.random() * allRiders.length)];
+      document.getElementById('riderOfTheDayName').innerText = `${randomRider.name} (${randomRider.flag})`;
+    }
+
+    // Vyhľadávanie
+    function filterRiders() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('rider-card');
+
+      for (let i = 0; i < cards.length; i++) {
+        const text = cards[i].innerText.toLowerCase();
+        if (text.includes(input)) {
+          cards[i].style.display = "flex";
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
