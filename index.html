@@ -2136,3 +2136,132 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nemecká a Rakúska Sekcia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-16 font-sans">
+
+  <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- HLAVIČKA A VÝBER LIGY -->
+    <header class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-center space-y-4">
+      <h1 class="text-2xl md:text-3xl font-black text-amber-400 uppercase tracking-wide">🇩🇪 Nemecká a Rakúska Sekcia</h1>
+      <p class="text-xs md:text-sm text-slate-400">Zvoľ si ligu alebo divíziu z ponuky nižšie a zobrazí sa ti kompletný zoznam klubov.</p>
+      
+      <!-- Tlačidlá pre výber ligy -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+        <button onclick="switchLeague('bundesliga')" id="btn-bundesliga" class="bg-amber-500 text-slate-950 font-black py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20">Bundesliga</button>
+        <button onclick="switchLeague('bundesliga2')" id="btn-bundesliga2" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition">Bundesliga 2</button>
+        <button onclick="switchLeague('iiiliga')" id="btn-iiiliga" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition">III. Liga</button>
+      </div>
+    </header>
+
+    <!-- VYHĽADÁVANIE V KLUBOCH -->
+    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <h2 id="currentLeagueTitle" class="text-lg font-bold text-amber-400 flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved"></i> Bundesliga
+      </h2>
+      <input type="text" id="searchInput" onkeyup="filterTeams()" placeholder="Hľadať klub v tejto lige..." class="w-full sm:w-72 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+    </div>
+
+    <!-- ZOZNAM KLUBOV -->
+    <section id="teamsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <!-- Generované dynamicky cez JavaScript -->
+    </section>
+
+  </main>
+
+  <script>
+    // Dáta pre nemecké a rakúske súťaže
+    const leaguesData = {
+      bundesliga: {
+        title: "Bundesliga",
+        teams: [
+          "Dortmund", "Bayern", "Wolfsburg", "Leverkusen", "Freiburg", "Schalke", 
+          "Union", "Hertha", "Darmstadt", "Norimberg", "Düsseldorf", "Hannover", 
+          "Bielefeld", "Magdeburg", "Dresden", "Saarbrücken", "Erzgebirge Aue", "Heidenheim"
+        ]
+      },
+      bundesliga2: {
+        title: "Bundesliga 2",
+        teams: [
+          "Braunschweig", "Cottbus", "Karlsrulhe", "Kiel", "Fürth", "St. Pauli", 
+          "Kaiserslautren", "Osnabrück", "Bochum", "Duisburg", "Stuttgart II", "Hoffenheim II", 
+          "Preßen", "Rostock", "Alemannia", "Waldhof", "Ingolstadt"
+        ]
+      },
+      iiiliga: {
+        title: "III. Liga",
+        teams: [
+          "LASK", "Rapid", "Wolfsberger", "Salzburg", "Sturm Graz", "Altach", 
+          "Hartberg", "Wien", "Blau Weiss Linz", "FC Kolín", "Mönchengladbach", "Frankfurt", 
+          "Augsburg", "Mainz", "Hamburger", "Leipzig", "Hoffenheim", "Stuttgart", "Werder Bremy"
+        ]
+      }
+    };
+
+    let activeLeagueKey = 'bundesliga';
+
+    function switchLeague(key) {
+      activeLeagueKey = key;
+      
+      const keys = ['bundesliga', 'bundesliga2', 'iiiliga'];
+      keys.forEach(k => {
+        const btn = document.getElementById(`btn-${k}`);
+        if (k === key) {
+          btn.className = "bg-amber-500 text-slate-950 font-black py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20";
+        } else {
+          btn.className = "bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition";
+        }
+      });
+
+      document.getElementById('searchInput').value = "";
+      renderTeams(leaguesData[key].title, leaguesData[key].teams);
+    }
+
+    function renderTeams(leagueTitle, teamsArray) {
+      document.getElementById('currentLeagueTitle').innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${leagueTitle} (${teamsArray.length} klubov)`;
+      const grid = document.getElementById('teamsGrid');
+      grid.innerHTML = "";
+
+      teamsArray.forEach((team, index) => {
+        const card = `
+          <div class="team-card bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between hover:bg-slate-800/50 transition shadow-md">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-amber-400">
+                ${index + 1}
+              </div>
+              <h3 class="font-bold text-white team-name">${team}</h3>
+            </div>
+            <span class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-full">Klub</span>
+          </div>
+        `;
+        grid.innerHTML += card;
+      });
+    }
+
+    function filterTeams() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('team-card');
+
+      for (let i = 0; i < cards.length; i++) {
+        const name = cards[i].querySelector('.team-name').innerText.toLowerCase();
+        if (name.includes(input)) {
+          cards[i].style.display = "flex";
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+    }
+
+    // Inicialný štart na Bundesliga
+    renderTeams(leaguesData.bundesliga.title, leaguesData.bundesliga.teams);
+  </script>
+</body>
+</html>
