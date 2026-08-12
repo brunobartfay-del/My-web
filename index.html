@@ -1147,3 +1147,225 @@
   </details>
 
 </section>
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Športový & Zábavný Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            border-bottom: 2px solid rgba(56, 189, 248, 0.2);
+            padding-bottom: 8px;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+            color: #fff;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+            background-color: #0f172a;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .result-box {
+            background-color: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--accent);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        th {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🎮 Športový & Turnajový Hub</h1>
+        <p>Interaktívne nástroje na žrebovanie, zápasy a statistiky</p>
+    </header>
+
+    <div class="dashboard-grid">
+
+        <!-- KARTA 1: Generátor náhodného zápasu / Žreb -->
+        <div class="card">
+            <h2>🎲 Rýchly Žreb / Duel</h2>
+            <p style="font-size: 0.9rem; margin-bottom: 10px; color: var(--text-muted);">
+                Zadaj tímy/hráčov (každý na nový riadok):
+            </p>
+            <textarea id="teamsInput" rows="4" placeholder="Tím A&#10;Tím B&#10;Tím C&#10;Tím D"></textarea>
+            <button onclick="drawMatch()">Vyžrebovať dvojicu</button>
+            <div class="result-box" id="drawResult">Čakám na žrebovanie...</div>
+        </div>
+
+        <!-- KARTA 2: Kalkulačka bodov v lige -->
+        <div class="card">
+            <h2>📊 Kalkulačka Výhry / Prehry</h2>
+            <label>Výhry (3 b):</label>
+            <input type="number" id="wins" value="0" min="0" oninput="calculatePoints()">
+            <label>Remízy (1 b):</label>
+            <input type="number" id="draws" value="0" min="0" oninput="calculatePoints()">
+            <label>Prehry (0 b):</label>
+            <input type="number" id="losses" value="0" min="0" oninput="calculatePoints()">
+            
+            <div class="result-box" id="pointsResult">Celkovo bodov: 0</div>
+        </div>
+
+        <!-- KARTA 3: SEMAFOR / Stav turnaja -->
+        <div class="card">
+            <h2>⚡ Rýchly Stav Turnaja</h2>
+            <p style="font-size: 0.9rem; margin-bottom: 15px; color: var(--text-muted);">Aktuálny režim:</p>
+            <select id="statusSelect" onchange="updateStatus()">
+                <option value="🟢 Turnaj prebieha">🟢 Prebieha</option>
+                <option value="🟡 Čaká sa na zápasy">🟡 Prestávka / Príprava</option>
+                <option value="🔴 Turnaj ukončený">🔴 Ukončený</option>
+            </select>
+            <div class="result-box" id="statusResult">🟢 Turnaj prebieha</div>
+        </div>
+
+    </div>
+
+    <script>
+        // Funkcia pre žrebovanie dvojice
+        function drawMatch() {
+            const input = document.getElementById('teamsInput').value.trim();
+            if (!input) {
+                document.getElementById('drawResult').innerText = "⚠️ Prosím vlož aspoň 2 tímy!";
+                return;
+            }
+
+            const teams = input.split('\n').filter(t => t.trim() !== '');
+            if (teams.length < 2) {
+                document.getElementById('drawResult').innerText = "⚠️ Potrebuješ minimálne 2 tímy!";
+                return;
+            }
+
+            const team1Index = Math.floor(Math.random() * teams.length);
+            let team2Index = Math.floor(Math.random() * teams.length);
+
+            while (team1Index === team2Index) {
+                team2Index = Math.floor(Math.random() * teams.length);
+            }
+
+            document.getElementById('drawResult').innerText = `${teams[team1Index]} 🆚 ${teams[team2Index]}`;
+        }
+
+        // Funkcia na výpočet bodov
+        function calculatePoints() {
+            const wins = parseInt(document.getElementById('wins').value) || 0;
+            const draws = parseInt(document.getElementById('draws').value) || 0;
+            const totalPoints = (wins * 3) + (draws * 1);
+
+            document.getElementById('pointsResult').innerText = `Celkovo bodov: ${totalPoints}`;
+        }
+
+        // Funkcia na zmenu stavu
+        function updateStatus() {
+            const val = document.getElementById('statusSelect').value;
+            document.getElementById('statusResult').innerText = val;
+        }
+    </script>
+
+</body>
+</html>
