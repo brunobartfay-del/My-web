@@ -267,6 +267,246 @@
   <footer class="border-t border-slate-800 bg-slate-950 py-6 text-center text-slate-500 text-xs">
     <p>© Môj Športový Svet. Vytvorené pre radosť z hry.</p>
   </footer>
+<script>
+  function openTab(tabName) {
+    document.getElementById('sgp2').classList.add('hidden');
+    document.getElementById('sgp3').classList.add('hidden');
+    
+    document.getElementById('btn-sgp2').className = 'px-6 py-3 rounded-xl font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+    document.getElementById('btn-sgp3').className = 'px-6 py-3 rounded-xl font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+
+    if(tabName === 'sgp2') {
+      document.getElementById('sgp2').classList.remove('hidden');
+      document.getElementById('btn-sgp2').className = 'px-6 py-3 rounded-xl font-bold bg-amber-500 text-slate-950 transition shadow-lg';
+    } else {
+      document.getElementById('sgp3').classList.remove('hidden');
+      document.getElementById('btn-sgp3').className = 'px-6 py-3 rounded-xl font-bold bg-emerald-500 text-slate-950 transition shadow-lg';
+    }
+  }
+</script>
 
 </body>
 </html>
+<!-- SEKCIA SGP 2 A SGP 3 KALENDÁR -->
+<section class="max-w-5xl mx-auto px-6 py-8 space-y-8">
+
+  <!-- PREPÍNAČ TABOV -->
+  <div class="flex justify-center gap-4">
+    <button onclick="openTab('sgp2')" id="btn-sgp2" class="px-6 py-3 rounded-xl font-bold bg-amber-500 text-slate-950 transition shadow-lg">
+      <i class="fa-solid fa-gauge-high mr-2"></i> SGP 2 (10 Roundov)
+    </button>
+    <button onclick="openTab('sgp3')" id="btn-sgp3" class="px-6 py-3 rounded-xl font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+      <i class="fa-solid fa-gauge mr-2"></i> SGP 3 (5 Roundov)
+    </button>
+  </div>
+
+  <!-- SGP 2 -->
+  <div id="sgp2" class="space-y-4">
+    <h2 class="text-2xl font-bold text-amber-400 border-b border-slate-800 pb-3 flex items-center gap-2 mb-6">
+      <i class="fa-solid fa-flag-checkered"></i> SGP 2 – Kalendár
+    </h2>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 1</span>
+          <span>Banská Bystrica 🇸🇰</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">23. 8.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>23. august</strong> | Miesto: Banská Bystrica, Slovensko</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 2</span>
+          <span>Zielona Góra 🇵🇱</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">30. 8.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>30. august</strong> | Miesto: Zielona Góra, Poľsko</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 3</span>
+          <span>Bahía Blanca 🇦🇷</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">6. 9.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>6. september</strong> | Miesto: Bahía Blanca, Argentína</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 4</span>
+          <span>Mjällby 🇸🇪</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">11. 9.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>11. september</strong> | Miesto: Mjällby, Švédsko</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 5</span>
+          <span>Krško 🇸🇮</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">23. 9.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>23. september</strong> | Miesto: Krško, Slovinsko</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 6</span>
+          <span>Riga 🇱🇻</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">1. 10.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>1. október</strong> | Miesto: Riga, Lotyšsko</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 7</span>
+          <span>Vojens 🇩🇰</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">8. 10.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>8. október</strong> | Miesto: Vojens, Dánsko</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 8</span>
+          <span>Leicester 🇬🇧</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">11. 10.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>11. október</strong> | Miesto: Leicester, Veľká Británia</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 9</span>
+          <span>Terenzano 🇮🇹</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">17. 10.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>17. október</strong> | Miesto: Terenzano, Taliansko</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-black border border-amber-500/30">ROUND 10</span>
+          <span>Transylvania 🇷🇴</span>
+        </div>
+        <span class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">4. 11.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>4. november</strong> | Miesto: Transylvania, Rumunsko</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- SGP 3 -->
+  <div id="sgp3" class="space-y-4 hidden">
+    <h2 class="text-2xl font-bold text-emerald-400 border-b border-slate-800 pb-3 flex items-center gap-2 mb-6">
+      <i class="fa-solid fa-flag-checkered"></i> SGP 3 – Kalendár
+    </h2>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm font-black border border-emerald-500/30">ROUND 1</span>
+          <span>Lisabon 🇵🇹</span>
+        </div>
+        <span class="text-sm font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">14. 8.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>14. august</strong> | Miesto: Lisabon, Portugalsko</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm font-black border border-emerald-500/30">ROUND 2</span>
+          <span>Oxford (Kolo 1) 🇬🇧</span>
+        </div>
+        <span class="text-sm font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">20. 8.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>20. august</strong> | Miesto: Oxford, Veľká Británia</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm font-black border border-emerald-500/30">ROUND 3</span>
+          <span>Oxford (Kolo 2) 🇬🇧</span>
+        </div>
+        <span class="text-sm font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">21. 8.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>21. august</strong> | Miesto: Oxford, Veľká Británia</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm font-black border border-emerald-500/30">ROUND 4</span>
+          <span>Melbourne 🇦🇺</span>
+        </div>
+        <span class="text-sm font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">28. 8.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>28. august</strong> | Miesto: Melbourne, Austrália</p>
+      </div>
+    </details>
+
+    <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden group">
+      <summary class="p-5 font-bold cursor-pointer hover:bg-slate-800/80 transition flex items-center justify-between text-lg text-white">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm font-black border border-emerald-500/30">ROUND 5</span>
+          <span>Budapest 🇭🇺</span>
+        </div>
+        <span class="text-sm font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">3. 9.</span>
+      </summary>
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <p class="text-slate-300 text-sm">Dátum: <strong>3. september</strong> | Miesto: Budapešť, Maďarsko</p>
+      </div>
+    </details>
+  </div>
+
+</section>
