@@ -1369,3 +1369,195 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGP 2 - Hub & Leaderboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-16 font-sans">
+
+  <!-- 1. COUNTDOWN TIMER -->
+  <header class="bg-slate-900 border-b border-slate-800 py-6 px-4 mb-8 text-center shadow-lg">
+    <p class="text-amber-400 font-bold uppercase tracking-wider text-xs mb-1">Najbližšie preteky: SGP 2 Round 1</p>
+    <h1 class="text-2xl md:text-3xl font-extrabold mb-3">🇸🇰 Banská Bystrica</h1>
+    
+    <div class="flex justify-center gap-3 text-center max-w-sm mx-auto">
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex-1">
+        <span id="days" class="text-2xl font-black text-amber-400 block">00</span>
+        <span class="text-[10px] text-slate-400 uppercase font-semibold">Dní</span>
+      </div>
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex-1">
+        <span id="hours" class="text-2xl font-black text-amber-400 block">00</span>
+        <span class="text-[10px] text-slate-400 uppercase font-semibold">Hodín</span>
+      </div>
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex-1">
+        <span id="minutes" class="text-2xl font-black text-amber-400 block">00</span>
+        <span class="text-[10px] text-slate-400 uppercase font-semibold">Minút</span>
+      </div>
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex-1">
+        <span id="seconds" class="text-2xl font-black text-amber-400 block">00</span>
+        <span class="text-[10px] text-slate-400 uppercase font-semibold">Sekúnd</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 space-y-12">
+
+    <!-- 2. TABUĽKA VÝSLEDKOV (STANDINGS / LEADERBOARD) -->
+    <section>
+      <h2 class="text-2xl font-bold text-amber-400 border-b border-slate-800 pb-3 mb-6 flex items-center gap-2">
+        <i class="fa-solid fa-list-ol"></i> Tabuľka výsledkov (Standings)
+      </h2>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-950/80 text-amber-400 text-xs uppercase tracking-wider border-b border-slate-800">
+                <th class="p-4 text-center">Poz.</th>
+                <th class="p-4">Jazdec</th>
+                <th class="p-4 text-center">Krajina</th>
+                <th class="p-4 text-center">Body</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody" class="divide-y divide-slate-800 text-sm">
+              <!-- Riadky sa načítajú zo skriptu -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. VYHĽADÁVANIE JAZDCOV & LIST -->
+    <section>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 mb-6 gap-4">
+        <h2 class="text-2xl font-bold text-amber-400 flex items-center gap-2">
+          <i class="fa-solid fa-magnifying-glass"></i> Vyhľadávanie jazdcov
+        </h2>
+        <!-- Vyhľadávacie pole -->
+        <div class="relative w-full sm:w-64">
+          <input type="text" id="searchInput" onkeyup="filterRiders()" placeholder="Hľadať jazdca alebo krajinu..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition">
+        </div>
+      </div>
+
+      <!-- Zoznam jazdcov -->
+      <div id="ridersList" class="space-y-3">
+
+        <div class="rider-card bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between hover:bg-slate-800/50 transition">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇨🇻</span>
+            <div>
+              <h3 class="font-bold text-white rider-name">Kapverdský Jazdec</h3>
+              <p class="text-xs text-slate-400 rider-country">Kapverdy</p>
+            </div>
+          </div>
+          <span class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-3 py-1 rounded-full">SGP 2</span>
+        </div>
+
+        <div class="rider-card bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between hover:bg-slate-800/50 transition">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇸🇰</span>
+            <div>
+              <h3 class="font-bold text-white rider-name">Slovenský Jazdec</h3>
+              <p class="text-xs text-slate-400 rider-country">Slovensko</p>
+            </div>
+          </div>
+          <span class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-3 py-1 rounded-full">SGP 2</span>
+        </div>
+
+        <div class="rider-card bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between hover:bg-slate-800/50 transition">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇵🇱</span>
+            <div>
+              <h3 class="font-bold text-white rider-name">Poľský Jazdec #1</h3>
+              <p class="text-xs text-slate-400 rider-country">Poľsko</p>
+            </div>
+          </div>
+          <span class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-3 py-1 rounded-full">SGP 2</span>
+        </div>
+
+        <div class="rider-card bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between hover:bg-slate-800/50 transition">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🇨🇿</span>
+            <div>
+              <h3 class="font-bold text-white rider-name">Český Jazdec #1</h3>
+              <p class="text-xs text-slate-400 rider-country">Česko</p>
+            </div>
+          </div>
+          <span class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-3 py-1 rounded-full">SGP 2</span>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT LOGIKA -->
+  <script>
+    // 1. COUNTDOWN TIMER LOGIKA (Banská Bystrica - 23. august 2026)
+    const targetDate = new Date("August 23, 2026 18:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+        document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+        document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+        document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+      }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 2. LEADERBOARD DATA & GENERÁTOR
+    const ridersData = [
+      { pos: 1, name: "Kapverdský Jazdec", flag: "🇨🇻", points: 20 },
+      { pos: 2, name: "Slovenský Jazdec", flag: "🇸🇰", points: 18 },
+      { pos: 3, name: "Poľský Jazdec #1", flag: "🇵🇱", points: 16 },
+      { pos: 4, name: "Český Jazdec #1", flag: "🇨🇿", points: 14 },
+      { pos: 5, name: "Švédsky Jazdec #1", flag: "🇸🇪", points: 12 }
+    ];
+
+    const leaderboardBody = document.getElementById("leaderboardBody");
+    ridersData.forEach(rider => {
+      const row = `
+        <tr class="hover:bg-slate-800/40 transition">
+          <td class="p-4 text-center font-bold ${rider.pos === 1 ? 'text-amber-400' : rider.pos === 2 ? 'text-slate-300' : rider.pos === 3 ? 'text-amber-600' : 'text-slate-500'}">${rider.pos}.</td>
+          <td class="p-4 font-bold text-white">${rider.name}</td>
+          <td class="p-4 text-center text-xl">${rider.flag}</td>
+          <td class="p-4 text-center font-black text-amber-400">${rider.points} pts</td>
+        </tr>
+      `;
+      leaderboardBody.innerHTML += row;
+    });
+
+    // 3. VYHĽADÁVANIE JAZDCOV
+    function filterRiders() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('rider-card');
+
+      for (let i = 0; i < cards.length; i++) {
+        const name = cards[i].querySelector('.rider-name').innerText.toLowerCase();
+        const country = cards[i].querySelector('.rider-country').innerText.toLowerCase();
+
+        if (name.includes(input) || country.includes(input)) {
+          cards[i].style.display = "flex";
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
