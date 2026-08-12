@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Môj Športový Svet | Futbal & Plochá Dráha</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+
+  <!-- HERO SEKCIA -->
+  <header class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 border-b border-slate-800 py-16 px-6 text-center">
+    <div class="max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-semibold mb-6">
+        <i class="fa-solid fa-trophy"></i> Osobné Športové Portfólio
+      </div>
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-white">
+        Vitaj v mojom <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">športovom svete</span>
+      </h1>
+      <p class="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mb-8">
+        Vášnivý futbalový stratég, tvorca vlastných líg a nadšenec plochej dráhy (SGP & SEC).
+      </p>
+      <div class="flex justify-center gap-4">
+        <a href="#futbal" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-5 py-3 rounded-xl transition flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-futbol"></i> Futbal
+        </a>
+        <a href="#plocha-draha" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-5 py-3 rounded-xl border border-slate-700 transition flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-flag-checkered"></i> Plochá dráha
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HLAVNÝ OBSAH -->
+  <main class="max-w-4xl mx-auto px-6 py-12 space-y-12">
+
+    <!-- FUTBAL SEKCIA -->
+    <section id="futbal">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-emerald-400">
+          <i class="fa-solid fa-futbol text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold">Futbal & Vlastné Sezóny</h2>
+          <p class="text-slate-400 text-xs">Manažment, simulácie a zápasy s kamarátmi</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+          <h3 class="text-lg font-bold mb-2 text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-diagram-project"></i> Tvorba líg & Sezóny
+          </h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Vytváram vlastní Unikátne ligy, nastavujem pravidlá, zostavujem tímy a odohrávam kompletné sezóny s detailnými štatistikami.
+          </p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+          <h3 class="text-lg font-bold mb-2 text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-users"></i> Zápasy s kamarátmi
+          </h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Spoločné ligy, turnaje a zápasová rivalita s kamarátmi. Futbal má u nás vždy tú najlepšiu atmosféru.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLOCHÁ DRÁHA SEKCIA -->
+    <section id="plocha-draha">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 bg-amber-500/10 rounded-xl border border-amber-500/20 text-amber-400">
+          <i class="fa-solid fa-gauge-high text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold">Plochá Dráha</h2>
+          <p class="text-slate-400 text-xs">Rýchlosť, adrenalín a vlastné šampionáty</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Plochá dráha je moja srdcová záležitosť. Sledujem aj simulujem najvyššie svetové aj európske súťaže.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-start gap-3">
+            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 font-bold rounded-lg text-xs">SGP</span>
+            <div>
+              <h4 class="font-bold text-white text-sm">Speedway Grand Prix</h4>
+              <p class="text-slate-400 text-xs">Elitná séria majstrovstiev sveta s najlepšími jazdcami.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-start gap-3">
+            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 font-bold rounded-lg text-xs">SEC</span>
+            <div>
+              <h4 class="font-bold text-white text-sm">Speedway Euro Championship</h4>
+              <p class="text-slate-400 text-xs">Európsky šampionát plný nekompromisných súbojov.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-950 py-6 text-center text-slate-500 text-xs">
+    <p>© Môj Športový Svet. Vytvorené pre radosť z hry.</p>
+  </footer>
+
+</body>
+</html>
