@@ -2386,3 +2386,646 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futbalový & Plochodrážny Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-16 font-sans">
+
+  <main class="max-w-4xl mx-auto px-4 py-8 space-y-12">
+
+    <!-- 🏆 HLAVNÉ NAVIGAČNÉ MENU / VÝBER LIG A SEKCII (ÚPLNE HORE) -->
+    <header class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6 text-center">
+      <div>
+        <span class="text-xs uppercase font-extrabold text-amber-400 tracking-wider">Navigačné centrum</span>
+        <h1 class="text-2xl md:text-3xl font-black text-white uppercase tracking-wide">Prehľad Súťaží & Sekcií</h1>
+        <p class="text-xs text-slate-400 mt-1">Zvoľ si ligu alebo sekciu, ktorú chceš práve prehliadať.</p>
+      </div>
+      
+      <!-- Hlavné kategórie prepínania -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <button onclick="switchMainSection('english')" id="btn-sec-english" class="bg-amber-500 text-slate-950 font-black py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20">Anglicko / Svet</button>
+        <button onclick="switchMainSection('german')" id="btn-sec-german" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition">Nemecko / Rakúsko</button>
+        <button onclick="switchMainSection('spanish')" id="btn-sec-spanish" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition">Španielsko / Portugalsko</button>
+        <button onclick="switchMainSection('speedway')" id="btn-sec-speedway" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition">SGP 2 & SGP 3</button>
+      </div>
+
+      <!-- Pod-tlačidlá pre vybratú sekciu -->
+      <div id="subLeaguesContainer" class="flex flex-wrap items-center justify-center gap-2 pt-2 border-t border-slate-800">
+        <!-- Dynamické pod-tlačidlá -->
+      </div>
+    </header>
+
+    <!-- ⏱️ ODPOČET DO ZAČIATKU LIGY (1. SEPTEMBER 2026) -->
+    <section class="bg-gradient-to-r from-slate-900 via-amber-950/30 to-slate-900 border border-amber-500/30 rounded-2xl p-6 shadow-xl text-center space-y-4">
+      <div class="flex items-center justify-center gap-2 text-amber-400">
+        <i class="fa-solid fa-hourglass-start text-xl"></i>
+        <h2 class="text-lg font-black uppercase tracking-wider">Odpočet do začiatku ligy</h2>
+      </div>
+      <p class="text-xs text-slate-400">Oficiálny štart novej sezóny je naplánovaný na <strong class="text-white">1. September 2026</strong>.</p>
+      
+      <div class="grid grid-cols-4 gap-2 max-w-md mx-auto pt-2">
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <span id="days" class="text-2xl md:text-3xl font-black text-amber-400 block">00</span>
+          <span class="text-[10px] text-slate-400 uppercase font-semibold">Dní</span>
+        </div>
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <span id="hours" class="text-2xl md:text-3xl font-black text-amber-400 block">00</span>
+          <span class="text-[10px] text-slate-400 uppercase font-semibold">Hodín</span>
+        </div>
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <span id="minutes" class="text-2xl md:text-3xl font-black text-amber-400 block">00</span>
+          <span class="text-[10px] text-slate-400 uppercase font-semibold">Minút</span>
+        </div>
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <span id="seconds" class="text-2xl md:text-3xl font-black text-amber-400 block">00</span>
+          <span class="text-[10px] text-slate-400 uppercase font-semibold">Sekúnd</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⚽ NADCHÁDZAJÚCE ZÁPASY (MATCHES ONEDLHO) -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <h2 class="text-xl font-bold text-amber-400 flex items-center gap-2">
+          <i class="fa-solid fa-calendar-days"></i> Nadchádzajúce zápasy (Onedlho)
+        </h2>
+        <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-full font-bold">Živý prehľad</span>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Play-off Champions League -->
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-amber-400"></i> Play-off Champions League
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2 hover:border-amber-500/40 transition">
+              <div class="flex justify-between items-center text-xs text-slate-400">
+                <span><i class="fa-regular fa-clock"></i> 13.8. | 15:10</span>
+                <span class="text-amber-400 font-semibold">AIG Stadium</span>
+              </div>
+              <div class="text-base font-black text-white text-center py-1">Salford City vs Mjällby</div>
+              <div class="text-[10px] text-center text-slate-500 uppercase tracking-wider">Champions League Play-off</div>
+            </div>
+
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2 hover:border-amber-500/40 transition">
+              <div class="flex justify-between items-center text-xs text-slate-400">
+                <span><i class="fa-regular fa-clock"></i> 14.8. | 12:00</span>
+                <span class="text-amber-400 font-semibold">Celtic Park</span>
+              </div>
+              <div class="text-base font-black text-white text-center py-1">Celtic vs Kyjev</div>
+              <div class="text-[10px] text-center text-slate-500 uppercase tracking-wider">Champions League Play-off</div>
+            </div>
+
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2 hover:border-amber-500/40 transition">
+              <div class="flex justify-between items-center text-xs text-slate-400">
+                <span><i class="fa-regular fa-clock"></i> 14.8. | 17:30</span>
+                <span class="text-amber-400 font-semibold">Eden Stadium</span>
+              </div>
+              <div class="text-base font-black text-white text-center py-1">Sp.Praha vs Helsinki</div>
+              <div class="text-[10px] text-center text-slate-500 uppercase tracking-wider">Champions League Play-off</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Friendly match -->
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-handshake text-blue-400"></i> Friendly match
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2 hover:border-blue-500/40 transition">
+              <div class="flex justify-between items-center text-xs text-slate-400">
+                <span><i class="fa-regular fa-clock"></i> 12.8. | 19:00</span>
+                <span class="text-blue-400 font-semibold">St.Jakob’s park</span>
+              </div>
+              <div class="text-base font-black text-white text-center py-1">Madrid vs Man Utd</div>
+              <div class="text-[10px] text-center text-slate-500 uppercase tracking-wider">Priateľský zápas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VYHĽADÁVANIE A VÝPIS KLUBOM / JAZDCOV -->
+    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <h2 id="currentLeagueTitle" class="text-lg font-bold text-amber-400 flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved"></i> Premier League
+      </h2>
+      <input type="text" id="searchInput" onkeyup="filterItems()" placeholder="Hľadať položku v tejto lige..." class="w-full sm:w-72 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+    </div>
+
+    <!-- ZOZNAM POLOŽIEK (KLUBY / JAZDCI) -->
+    <section id="itemsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <!-- Generované dynamicky -->
+    </section>
+
+  </main>
+
+  <script>
+    // Kompletná databáza všetkých sekcií a líg
+    const masterData = {
+      english: {
+        name: "Anglicko / Svet",
+        subleagues: [
+          { key: "pl", title: "Premier League", teams: ["Man City", "Man Utd", "Chelsea", "Tottenham Hotspur", "Brighton", "Bournemouth", "Coventry City", "Newcastle", "Liverpool", "West Ham", "Leicester City", "Luton Town", "Birmingham", "Wrexham", "Watford", "Salford City", "Oldham Athletic", "Barnet", "MK Dons", "Notts County"] },
+          { key: "championship", title: "EFL Championship", teams: ["Arsenal", "Aston Villa", "Brentford", "Crystal Palace", "Everton", "Fulham", "Hull City", "Ipswich Town", "Leeds United", "Nottingham Forest", "Sunderland", "Burnley", "Cardiff City", "Southampton", "Wolves", "Wimbledon", "Plymouth", "Leyton Orient", "Huddersfield", "Cambridge", "Barnsley", "Blackpool", "Mansfielfd", "Burton"] },
+          { key: "leagueone", title: "EFL League One", teams: ["Nashville", "Inter Miami", "New England", "Chicago Fire", "NY City FC", "Cincinati", "Charlotte", "NY Red Bulls", "D.C. United", "Orlando City", "Colombus", "Toronto", "Philadelphia", "Montreal", "Atalanta", "Vancouver", "LAFC", "SAN Jose", "Houston Dynamo", "Real Salt Lake", "Dallas", "St. Louis", "Portland", "Seattle"] },
+          { key: "leaguetwo", title: "EFL League Two", teams: ["Minnesota", "Colorado", "LA Galaxy", "San Diego", "Austin", "Sporting KC", "Celtic", "St. Mirren", "Motherwell", "Hearts", "Dundee FC", "St. Johnstone", "Hibernian", "Abeerden", "Rangers", "Falkrik", "Dundee United", "Kilmanrock", "Blackburn", "QPR", "Preston", "Norwich", "Millwall", "Portsmouth", "Bolton"] }
+        ]
+      },
+      german: {
+        name: "Nemecko / Rakúsko",
+        subleagues: [
+          { key: "bundesliga", title: "Bundesliga", teams: ["Dortmund", "Bayern", "Wolfsburg", "Leverkusen", "Freiburg", "Schalke", "Union", "Hertha", "Darmstadt", "Norimberg", "Düsseldorf", "Hannover", "Bielefeld", "Magdeburg", "Dresden", "Saarbrücken", "Erzgebirge Aue", "Heidenheim"] },
+          { key: "bundesliga2", title: "Bundesliga 2", teams: ["Braunschweig", "Cottbus", "Karlsrulhe", "Kiel", "Fürth", "St. Pauli", "Kaiserslautren", "Osnabrück", "Bochum", "Duisburg", "Stuttgart II", "Hoffenheim II", "Preßen", "Rostock", "Alemannia", "Waldhof", "Ingolstadt"] },
+          { key: "iiiliga", title: "III. Liga", teams: ["LASK", "Rapid", "Wolfsberger", "Salzburg", "Sturm Graz", "Altach", "Hartberg", "Wien", "Blau Weiss Linz", "FC Kolín", "Mönchengladbach", "Frankfurt", "Augsburg", "Mainz", "Hamburger", "Leipzig", "Hoffenheim", "Stuttgart", "Werder Bremy"] }
+        ]
+      },
+      spanish: {
+        name: "Španielsko / Portugalsko",
+        subleagues: [
+          { key: "laliga", title: "La Liga", teams: ["Atl Madrid", "Alavés", "Barcelona", "Santander", "Deportivo", "Betis", "Real", "Sociedad", "Mallorca", "Valencia", "Sevilla", "Albacete", "Cádiz", "Andorra", "Girona", "Sociedad B", "Almería", "Las Palmas", "Mirandés", "Valladolid"] },
+          { key: "laliga2", title: "La Liga 2", teams: ["Bilbao", "Villarreal", "Osasuna", "Getafe", "Elche", "Vallecano", "Porto", "Sporting", "Benfica", "Braga", "Gil Vincente", "Arouca", "Guimares", "Santa Clara", "Nacional", "Tondela", "AVS", "Moreirense", "Famalicao", "Alverca", "Estorill", "Casa Pia"] }
+        ]
+      },
+      speedway: {
+        name: "SGP 2 & SGP 3",
+        subleagues: [
+          { 
+            key: "sgp2", 
+            title: "SGP 2", 
+            teams: ["Anders Thomsen (🇩🇰)", "Adam Bubba Bednář (🇨🇿)", "Janek Konzack (🇩🇪)", "Tai Woffinden (🇬🇧)", "Leon Madsen (🇩🇰)", "Jack Holder (🇦🇺)", "Max Fricke (🇦🇺)", "Dominik Kubera (🇵🇱)", "Jason Doyle (🇦🇺)", "Michael Jepsen Jensen (🇩🇰)", "Diego Maghaliesa La Costa (🇨🇻)", "Szymon Woźniak (🇵🇱)", "Kacper Woryna (🇵🇱)", "Štichauer Hynek (🇨🇿)", "Filip Kasan (🇸🇰)"] 
+          },
+          { 
+            key: "sgp3", 
+            title: "SGP 3", 
+            teams: ["Oliver Berntzon (🇸🇪)", "Adrian Gała (🇵🇱)", "Anze Grmek (🇸🇮)", "David Bellego (🇫🇷)", "Mateusz Szczepaniak (🇵🇱)", "Jakub Valkovič (🇸🇰)", "Francis Gusts (🇱🇻)", "Luke Becker (🇺🇸)", "Marko Levyshin (🇺🇦)", "Makar Levyshin (🇺🇦)", "Andzejs Lebedevs (🇱🇻)", "Matej Žagar (🇸🇮)", "Matic Ivačič (🇸🇮)", "Frederik Jakobsen (🇩🇰)", "Václav Milík (🇨🇿)"] 
+          }
+        ]
+      }
+    };
+
+    let currentMain = 'english';
+    let currentSubKey = 'pl';
+
+    function switchMainSection(mainKey) {
+      currentMain = mainKey;
+      
+      // Nastavenie aktívnych tried hlavných tlačidiel
+      ['english', 'german', 'spanish', 'speedway'].forEach(k => {
+        const btn = document.getElementById(`btn-sec-${k}`);
+        if (k === mainKey) {
+          btn.className = "bg-amber-500 text-slate-950 font-black py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20";
+        } else {
+          btn.className = "bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition";
+        }
+      });
+
+      // Vykreslenie pod-tlačidiel pre danú sekciu
+      const subContainer = document.getElementById('subLeaguesContainer');
+      subContainer.innerHTML = "";
+      
+      const subLeagues = masterData[mainKey].subleagues;
+      currentSubKey = subLeagues[0].key;
+
+      subLeagues.forEach(sub => {
+        const subBtn = document.createElement('button');
+        subBtn.id = `btn-sub-${sub.key}`;
+        subBtn.className = sub.key === currentSubKey ? "bg-amber-500/20 border border-amber-500/40 text-amber-400 font-bold px-3 py-1.5 rounded-lg text-xs transition" : "bg-slate-950 border border-slate-800 text-slate-400 hover:text-white px-3 py-1.5 rounded-lg text-xs transition";
+        subBtn.innerText = sub.title;
+        subBtn.onclick = () => switchSubLeague(sub.key);
+        subContainer.appendChild(subBtn);
+      });
+
+      renderCurrentItems();
+    }
+
+    function switchSubLeague(subKey) {
+      currentSubKey = subKey;
+      
+      const subLeagues = masterData[currentMain].subleagues;
+      subLeagues.forEach(sub => {
+        const btn = document.getElementById(`btn-sub-${sub.key}`);
+        if (btn) {
+          if (sub.key === subKey) {
+            btn.className = "bg-amber-500/20 border border-amber-500/40 text-amber-400 font-bold px-3 py-1.5 rounded-lg text-xs transition";
+          } else {
+            btn.className = "bg-slate-950 border border-slate-800 text-slate-400 hover:text-white px-3 py-1.5 rounded-lg text-xs transition";
+          }
+        }
+      });
+
+      renderCurrentItems();
+    }
+
+    function renderCurrentItems() {
+      const subLeagues = masterData[currentMain].subleagues;
+      const activeSub = subLeagues.find(s => s.key === currentSubKey) || subLeagues[0];
+
+      document.getElementById('currentLeagueTitle').innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${activeSub.title} (${activeSub.teams.length} položiek)`;
+      document.getElementById('searchInput').value = "";
+
+      const grid = document.getElementById('itemsGrid');
+      grid.innerHTML = "";
+
+      activeSub.teams.forEach((item, index) => {
+        const card = `
+          <div class="item-card bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between hover:bg-slate-800/50 transition shadow-md">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-amber-400">
+                ${index + 1}
+              </div>
+              <h3 class="font-bold text-white item-name">${item}</h3>
+            </div>
+            <span class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-full">Položka</span>
+          </div>
+        `;
+        grid.innerHTML += card;
+      });
+    }
+
+    function filterItems() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('item-card');
+
+      for (let i = 0; i < cards.length; i++) {
+        const name = cards[i].querySelector('.item-name').innerText.toLowerCase();
+        if (name.includes(input)) {
+          cards[i].style.display = "flex";
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+    }
+
+    // Odpočet do 1. septembra 2026
+    const countDownDate = new Date("Sep 1, 2026 00:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = countDownDate - now;
+
+      if (distance < 0) {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor```html
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGP & Football Hub</title>
+  <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+  <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-16 font-sans">
+
+  <main class="max-w-4xl mx-auto px-4 py-8 space-y-12">
+
+    <!-- ⏳ ODPOČET DO ZAČIATKU LIGY (1. SEPTEMBER 2026) -->
+    <section class="bg-gradient-to-r from-blue-950/50 via-slate-900 to-slate-900 border border-blue-500/30 rounded-2xl p-6 shadow-xl text-center space-y-3">
+      <span class="text-xs uppercase font-extrabold text-blue-400 tracking-wider">Sezónna odpočítavacia hodina</span>
+      <h2 class="text-xl md:text-2xl font-black text-white">Do začiatku novej sezóny ostáva:</h2>
+      <div id="countdown" class="text-2xl md:text-4xl font-black text-amber-400 tracking-wider">Načítavam odpočet...</div>
+    </section>
+
+    <!-- 🏆 HLAVNÝ VÝBER LÍG (ÚPLNE HORE) -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+      <div class="text-center space-y-2">
+        <h2 class="text-2xl font-black text-amber-400 uppercase tracking-wide">🏆 Výber Futbalových Líg a Sekcií</h2>
+        <p class="text-xs md:text-sm text-slate-400">Preklikni si sekciu a okamžite sa ti zobrazí kompletný zoznam klubov.</p>
+      </div>
+
+      <!-- Tlačidlá kategórií -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button onclick="switchCategory('england')" id="btn-cat-england" class="bg-amber-500 text-slate-950 font-black py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20 text-center">Anglicko</button>
+        <button onclick="switchCategory('germany')" id="btn-cat-germany" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition text-center">Nemecko & Rakúsko</button>
+        <button onclick="switchCategory('spain')" id="btn-cat-spain" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition text-center">Španielsko & Portugalsko</button>
+        <button onclick="switchCategory('subleagues')" id="btn-cat-subleagues" class="bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition text-center">Podligy (Divízie)</button>
+      </div>
+
+      <!-- Pod-tlačidlá pre vybratú kategóriu -->
+      <div id="subLeaguesMenu" class="flex flex-wrap justify-center gap-2 pt-2 border-t border-slate-800">
+        <!-- Generované dynamicky -->
+      </div>
+
+      <!-- Vyhľadávanie a názov -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+        <h3 id="currentLeagueTitle" class="text-lg font-bold text-amber-400 flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i> Premier League
+        </h3>
+        <input type="text" id="searchInput" onkeyup="filterTeams()" placeholder="Hľadať klub..." class="w-full sm:w-72 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+      </div>
+
+      <!-- Zoznam klubov -->
+      <div id="teamsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
+        <!-- Kluby -->
+      </div>
+    </section>
+
+    <!-- ⚽ NAJBLIŽŠIE ZÁPASY A PROGRAM -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+      <h2 class="text-xl font-bold text-amber-400 flex items-center gap-2">
+        <i class="fa-solid fa-calendar-days"></i> Najbližšie zápasy & Program
+      </h2>
+
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm uppercase font-black text-blue-400 tracking-wider mb-3">Play-off Champions League</h3>
+          <div class="space-y-2">
+            <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <span class="font-bold text-white text-base">Salford City vs Mjällby</span>
+                <span class="text-xs text-slate-400 block"><i class="fa-solid fa-location-dot"></i> AIG Stadium</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs px-3 py-1 rounded-full font-bold">13.8. | 15:10</span>
+                <span class="live-countdown text-xs bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full font-bold" data-target="2026-08-13T15:10:00">Odpočet</span>
+              </div>
+            </div>
+
+            <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <span class="font-bold text-white text-base">Celtic vs Kyjev</span>
+                <span class="text-xs text-slate-400 block"><i class="fa-solid fa-location-dot"></i> Celtic Park</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs px-3 py-1 rounded-full font-bold">14.8. | 12:00</span>
+                <span class="live-countdown text-xs bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full font-bold" data-target="2026-08-14T12:00:00">Odpočet</span>
+              </div>
+            </div>
+
+            <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <span class="font-bold text-white text-base">Sp. Praha vs Helsinki</span>
+                <span class="text-xs text-slate-400 block"><i class="fa-solid fa-location-dot"></i> Eden Stadium</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs px-3 py-1 rounded-full font-bold">14.8. | 17:30</span>
+                <span class="live-countdown text-xs bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full font-bold" data-target="2026-08-14T17:30:00">Odpočet</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-sm uppercase font-black text-emerald-400 tracking-wider mb-3">Friendly Match</h3>
+          <div class="space-y-2">
+            <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <span class="font-bold text-white text-base">Madrid vs Man Utd</span>
+                <span class="text-xs text-slate-400 block"><i class="fa-solid fa-location-dot"></i> St. Jakob’s Park</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-3 py-1 rounded-full font-bold">12.8. | 19:00</span>
+                <span class="live-countdown text-xs bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full font-bold" data-target="2026-08-12T19:00:00">Odpočet</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. JAZDEC DŇA (FAN FAVOURITE) -->
+    <section class="bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/30 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4 text-center md:text-left">
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-3xl shrink-0">
+          ⭐
+        </div>
+        <div>
+          <span class="text-xs uppercase font-extrabold text-amber-400 tracking-wider">Fanúšikovská voľba</span>
+          <h2 class="text-xl font-black text-white" id="riderOfTheDayName">Vyber Jazdca Dňa</h2>
+          <p class="text-xs text-slate-400">Klikni na tlačidlo a vyžrebuj/zvol si jazdca dňa pre dnešné kolo.</p>
+        </div>
+      </div>
+      <button onclick="pickRiderOfTheDay()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3 rounded-xl transition shadow-lg shadow-amber-500/20 flex items-center gap-2 shrink-0">
+        <i class="fa-solid fa-dice"></i> Zvoliť Jazdca Dňa
+      </button>
+    </section>
+
+    <!-- 2. ŠTATISTIKY A REKORDY TRATÍ -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+      <h2 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-chart-line"></i> Rekordy & Štatistiky tratí
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <span class="text-xs text-slate-400 uppercase font-semibold block mb-1">Najrýchlejšie kolo</span>
+          <span class="text-lg font-black text-white">57.42 s</span>
+          <span class="text-[10px] text-amber-400 block mt-1">Žarnovica Track</span>
+        </div>
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <span class="text-xs text-slate-400 uppercase font-semibold block mb-1">Najviac bodov za večer</span>
+          <span class="text-lg font-black text-white">21 pts</span>
+          <span class="text-[10px] text-amber-400 block mt-1">Maximalizmus limit</span>
+        </div>
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <span class="text-xs text-slate-400 uppercase font-semibold block mb-1">Celkovo jazdcov</span>
+          <span class="text-lg font-black text-white">30</span>
+          <span class="text-[10px] text-amber-400 block mt-1">SGP 2 & SGP 3 Spolu</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // --- ODPOČET DO 1. SEPTEMBRA 2026 ---
+    function updateCountdown() {
+      const targetDate = new Date("2026-09-01T00:00:00").getTime();
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      const countdownEl = document.getElementById("countdown");
+      if (difference <= 0) {
+        countdownEl.innerText = "Sezóna práve začala!";
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      countdownEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // --- ODPOČET PRE JEDNOTLIVÉ ZÁPASY ---
+    function updateMatchCountdowns() {
+      document.querySelectorAll('.live-countdown').forEach(el => {
+        const targetTime = new Date(el.getAttribute('data-target')).getTime();
+        const now = new Date().getTime();
+        const diff = targetTime - now;
+
+        if (diff <= 0) {
+          el.innerText = "Prebieha / Po termine";
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+        el.innerText = `Za ${hours}h ${mins}m ${secs}s`;
+      });
+    }
+    setInterval(updateMatchCountdowns, 1000);
+    updateMatchCountdowns();
+
+    // --- KOMPLETNÉ LIGOVÉ DÁTA ---
+    const allCategories = {
+      england: {
+        title: "Anglicko",
+        subLeagues: {
+          pl: {
+            title: "Premier League",
+            teams: ["Man City", "Man Utd", "Chelsea", "Tottenham Hotspur", "Brighton", "Bournemouth", "Coventry City", "Newcastle", "Liverpool", "West Ham", "Leicester City", "Luton Town", "Birmingham", "Wrexham", "Watford", "Salford City", "Oldham Athletic", "Barnet", "MK Dons", "Notts County"]
+          },
+          championship: {
+            title: "EFL Championship",
+            teams: ["Arsenal", "Aston Villa", "Brentford", "Crystal Palace", "Everton", "Fulham", "Hull City", "Ipswich Town", "Leeds United", "Nottingham Forest", "Sunderland", "Burnley", "Cardiff City", "Southampton", "Wolves", "Wimbledon", "Plymouth", "Leyton Orient", "Huddersfield", "Cambridge", "Barnsley", "Blackpool", "Mansfielfd", "Burton"]
+          },
+          leagueone: {
+            title: "EFL League One",
+            teams: ["Nashville", "Inter Miami", "New England", "Chicago Fire", "NY City FC", "Cincinati", "Charlotte", "NY Red Bulls", "D.C. United", "Orlando City", "Colombus", "Toronto", "Philadelphia", "Montreal", "Atalanta", "Vancouver", "LAFC", "SAN Jose", "Houston Dynamo", "Real Salt Lake", "Dallas", "St. Louis", "Portland", "Seattle"]
+          },
+          leaguetwo: {
+            title: "EFL League Two",
+            teams: ["Minnesota", "Colorado", "LA Galaxy", "San Diego", "Austin", "Sporting KC", "Celtic", "St. Mirren", "Motherwell", "Hearts", "Dundee FC", "St. Johnstone", "Hibernian", "Abeerden", "Rangers", "Falkrik", "Dundee United", "Kilmanrock", "Blackburn", "QPR", "Preston", "Norwich", "Millwall", "Portsmouth", "Bolton"]
+          }
+        }
+      },
+      germany: {
+        title: "Nemecko & Rakúsko",
+        subLeagues: {
+          bundesliga: {
+            title: "Bundesliga",
+            teams: ["Dortmund", "Bayern", "Wolfsburg", "Leverkusen", "Freiburg", "Schalke", "Union", "Hertha", "Darmstadt", "Norimberg", "Düsseldorf", "Hannover", "Bielefeld", "Magdeburg", "Dresden", "Saarbrücken", "Erzgebirge Aue", "Heidenheim"]
+          },
+          bundesliga2: {
+            title: "Bundesliga 2",
+            teams: ["Braunschweig", "Cottbus", "Karlsrulhe", "Kiel", "Fürth", "St. Pauli", "Kaiserslautren", "Osnabrück", "Bochum", "Duisburg", "Stuttgart II", "Hoffenheim II", "Preßen", "Rostock", "Alemannia", "Waldhof", "Ingolstadt"]
+          },
+          iiiliga: {
+            title: "III. Liga",
+            teams: ["LASK", "Rapid", "Wolfsberger", "Salzburg", "Sturm Graz", "Altach", "Hartberg", "Wien", "Blau Weiss Linz", "FC Kolín", "Mönchengladbach", "Frankfurt", "Augsburg", "Mainz", "Hamburger", "Leipzig", "Hoffenheim", "Stuttgart", "Werder Bremy"]
+          }
+        }
+      },
+      spain: {
+        title: "Španielsko & Portugalsko",
+        subLeagues: {
+          laliga: {
+            title: "La Liga",
+            teams: ["Atl Madrid", "Alavés", "Barcelona", "Santander", "Deportivo", "Betis", "Real", "Sociedad", "Mallorca", "Valencia", "Sevilla", "Albacete", "Cádiz", "Andorra", "Girona", "Sociedad B", "Almería", "Las Palmas", "Mirandés", "Valladolid"]
+          },
+          laliga2: {
+            title: "La Liga 2",
+            teams: ["Bilbao", "Villarreal", "Osasuna", "Getafe", "Elche", "Vallecano", "Porto", "Sporting", "Benfica", "Braga", "Gil Vincente", "Arouca", "Guimares", "Santa Clara", "Nacional", "Tondela", "AVS", "Moreirense", "Famalicao", "Alverca", "Estorill", "Casa Pia"]
+          }
+        }
+      }
+    };
+
+    let activeCategory = 'england';
+    let activeSubLeague = 'pl';
+
+    function switchCategory(catKey) {
+      activeCategory = catKey;
+      const firstSubKey = Object.keys(allCategories[catKey].subLeagues)[0];
+      activeSubLeague = firstSubKey;
+
+      // Štýly hlavných tlačidiel kategórií
+      ['england', 'germany', 'spain'].forEach(k => {
+        const btn = document.getElementById(`btn-cat-${k}`);
+        if(btn) {
+          if (k === catKey) {
+            btn.className = "bg-amber-500 text-slate-950 font-black py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20 text-center";
+          } else {
+            btn.className = "bg-slate-950 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-3 rounded-xl text-xs uppercase tracking-wider transition text-center";
+          }
+        }
+      });
+
+      renderSubLeaguesMenu();
+      renderActiveTeams();
+    }
+
+    function renderSubLeaguesMenu() {
+      const menu = document.getElementById('subLeaguesMenu');
+      menu.innerHTML = "";
+      const subs = allCategories[activeCategory].subLeagues;
+
+      for (const [key, subObj] of Object.entries(subs)) {
+        const isAct = (key === activeSubLeague);
+        const btnClass = isAct 
+          ? "bg-amber-400/20 border border-amber-400 text-amber-300 font-bold px-3 py-1.5 rounded-lg text-xs transition" 
+          : "bg-slate-950 border border-slate-800 text-slate-400 hover:text-white px-3 py-1.5 rounded-lg text-xs transition";
+
+        menu.innerHTML += `<button onclick="switchSubLeague('${key}')" class="${btnClass}">${subObj.title}</button>`;
+      }
+    }
+
+    function switchSubLeague(subKey) {
+      activeSubLeague = subKey;
+      renderSubLeaguesMenu();
+      renderActiveTeams();
+    }
+
+    function renderActiveTeams() {
+      const subObj = allCategories[activeCategory].subLeagues[activeSubLeague];
+      document.getElementById('currentLeagueTitle').innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${subObj.title} (${subObj.teams.length} klubov)`;
+      
+      const grid = document.getElementById('teamsGrid');
+      grid.innerHTML = "";
+
+      subObj.teams.forEach((team, index) => {
+        grid.innerHTML += `
+          <div class="team-card bg-slate-950 border border-slate-800 rounded-xl p-3 flex items-center justify-between hover:border-slate-700 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-7 h-7 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-[10px] font-bold text-amber-400">${index + 1}</div>
+              <h4 class="font-bold text-white text-sm team-name">${team}</h4>
+            </div>
+            <span class="text-[10px] bg-slate-900 border border-slate-800 text-slate-400 px-2 py-0.5 rounded-full">Klub</span>
+          </div>
+        `;
+      });
+    }
+
+    function filterTeams() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('team-card');
+      for (let i = 0; i < cards.length; i++) {
+        const name = cards[i].querySelector('.team-name').innerText.toLowerCase();
+        cards[i].style.display = name.includes(input) ? "flex" : "none";
+      }
+    }
+
+    // Inicializácia rozhrania
+    switchCategory('england');
+
+    // Jazdec dňa skript
+    const sgp2Riders = [{name: "Anders Thomsen", flag: "🇩🇰"}, {name: "Tai Woffinden", flag: "🇬🇧"}, {name: "Jack Holder", flag: "🇦🇺"}];
+    function pickRiderOfTheDay() {
+      const r = sgp2Riders[Math.floor(Math.random() * sgp2Riders.length)];
+      document.getElementById('riderOfTheDayName').innerText = `${r.name} (${r.flag})`;
+    }
+  </script>
+</body>
+</html>
