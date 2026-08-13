@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC 26 SEZÓNA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 15px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 15px;
+            border: 1px solid #334155;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #38bdf8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ŠTVORČEKY / KARTY */
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        details {
+            background-color: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details[open] {
+            border-color: #38bdf8;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
+        }
+
+        /* VZHLAD STVORČEKA (KLIKACIA LIŠTA) */
+        summary {
+            padding: 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #38bdf8;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background-color: #162032;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '►';
+            font-size: 1.1rem;
+            color: #94a3b8;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(90deg);
+            color: #38bdf8;
+        }
+
+        summary:hover {
+            background-color: #1c2a42;
+        }
+
+        /* OBSAH PO ROZBALENÍ */
+        .content {
+            padding: 20px;
+            border-top: 1px solid #334155;
+            background-color: #0f172a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        th {
+            color: #38bdf8;
+            background-color: #162032;
+        }
+
+        .transfer-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        .price {
+            color: #4ade80;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>⚽ FC 26 SEZÓNA ⚽</h1>
+    </header>
+
+    <div class="grid-container">
+
+        <!-- ŠTVORČEK 1: LIGY -->
+        <details>
+            <summary>🏆 LIGY</summary>
+            <div class="content">
+                <p>Sem napíš informácie o ligách alebo vlož tabuľku:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tím</th>
+                            <th>Zápasy</th>
+                            <th>Body</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1.</td>
+                            <td>Tím 1</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>2.</td>
+                            <td>Tím 2</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </details>
+
+        <!-- ŠTVORČEK 2: ZÁPASY -->
+        <details>
+            <summary>📅 ZÁPASY</summary>
+            <div class="content">
+                <p>Rozpis nadchádzajúcich alebo odohratých zápasov:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Domáci</th>
+                            <th>Výsledok / Čas</th>
+                            <th>Hostia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tím A</td>
+                            <td>VS</td>
+                            <td>Tím B</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </details>
+
+        <!-- ŠTVORČEK 3: PRESTUPY -->
+        <details>
+            <summary>🔄 PRESTUPY</summary>
+            <div class="content">
+                <p>Prehľad najnovších prestupov hráčov:</p>
+                <div class="transfer-row">
+                    <span>Meno Hráča (Z tímu ➔ Do tímu)</span>
+                    <span class="price">Cena €</span>
+                </div>
+            </div>
+        </details>
+
+    </div>
+
+</body>
+</html>
